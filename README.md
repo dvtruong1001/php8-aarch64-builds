@@ -1,4 +1,4 @@
-# THIS REPO DIDNT RELEASE PM5 FOR ARM64
+# THIS REPO DIDNT RELEASE PM5 FOR ARM64 FOR RIGHT NOW
 # Custom PHP build scripts for PocketMine-MP
 [![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
 
