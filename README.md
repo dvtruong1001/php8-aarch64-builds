@@ -3,8 +3,8 @@
 [![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
 
 ## Looking for prebuilt binaries? Head over to releases.
- - [pmmp](https://github.com/pmmp/PHP-Binaries/releases/latest) compiled binary for MacOS Intel, Windows 10, 11, linux amd64
- - [TukangM](https://github.com/TukangM/PHP-Binaries/releases/latest) compiled binary for linux arm64
+ - [pmmp/PHP-Binaries/releases/lastest](https://github.com/pmmp/PHP-Binaries/releases/latest) compiled binary for MacOS Intel, Windows 10, 11, linux amd64
+ - [TukangM/php-build-scripts-auto/releases/lastest](https://github.com/TukangM/PHP-Binaries/releases/latest) compiled binary for linux arm64
 
 ## compile.sh
 
