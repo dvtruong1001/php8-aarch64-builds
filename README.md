@@ -1,10 +1,6 @@
-# THIS REPO RELEASED PM5 PM4 FOR ARM64
-# Custom PHP build scripts for PocketMine-MP
-[![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
-
-## Looking for prebuilt binaries? Head over to releases.
- - [pmmp/PHP-Binaries/releases/lastest](https://github.com/pmmp/PHP-Binaries/releases/latest) compiled binary for MacOS Intel, Windows 10, 11, linux amd64
- - [TukangM/php-build-scripts-auto/releases/lastest](https://github.com/TukangM/php-build-scripts-auto/releases/latest) compiled binary for linux arm64
+# THIS REPO RELEASED PM5 FOR ARM64 - WARNING. PM4 is deprecated. So new releases are getting only PM5
+### last release / new release https://github.com/TukangM/php8-aarch64-builds/releases/latest
+### last support pm4 at this release https://github.com/TukangM/php8-aarch64-builds/releases/tag/php8.1.23
 
 ## compile.sh
 
@@ -19,33 +15,30 @@ Bash script used to compile PHP on MacOS and Linux platforms. Make sure you have
 #### Android 64-bit (cross-compile)
 - Only aarch64 targets are supported for Android cross-compile.
 - The `aarch64-linux-musl` toolchain is required. You can compile and install it using https://github.com/pmmp/musl-cross-make (PMMP fork includes musl-libc patches for DNS resolver config path and increasing stack size limit for LevelDB)
-- It is strongly recommended that you enable abusive optimizations for Android targets (`-f` flag) for best performance.
 
-| Script flags | Description                                                                                        |
-|--------------|----------------------------------------------------------------------------------------------------|
-| -d           | Will compile with debug and the xdebug PHP extension                                               |
-| -f           | Enabling abusive optimizations...                                                                  |
-| -g           | Will compile GD2                                                                                   |
-| -j           | Set make threads to #                                                                              |
-| -n           | Don't remove sources after completing compilation                                                  |
-| -s           | Will compile everything statically                                                                 |
-| -t           | Set target                                                                                         |
-| -v           | Enable Valgrind support in PHP                                                                     |
-| -x           | Specifies we are doing cross-compile                                                               |
-| -P           | Compiles extensions for the major PocketMine-MP version specified (default `4`, can be `4` or `5`) |
+| Script flags | Description                                                                                                 |
+|--------------|-------------------------------------------------------------------------------------------------------------|
+| -c           | Uses the folder specified for caching downloaded tarballs, zipballs etc.                                    |
+| -d           | Compiles with debugging symbols and disables optimizations (slow, but useful for debugging segfaults)       |
+| -D           | Compiles with separated debugging symbols, but leaves optimizations enabled (used for distributed binaries) |
+| -g           | Will compile GD2                                                                                            |
+| -j           | Set make threads to #                                                                                       |
+| -l           | Uses the folder specified for caching compilation artifacts (useful for rapid rebuild and testing)          |
+| -n           | Don't remove sources after completing compilation                                                           |
+| -s           | Will compile everything statically                                                                          |
+| -t           | Set target                                                                                                  |
+| -v           | Enable Valgrind support in PHP                                                                              |
+| -x           | Specifies we are doing cross-compile                                                                        |
+| -P           | Compiles extensions for the major PocketMine-MP version specified (can be `4` or `5`)                       |
 
 ### Example:
 
 | Target          | Arguments                         |
 |-----------------|-----------------------------------|
-| linux64         | ``-t linux64 -j4 -f x86_64``      |
-| linux64, PM5    | ``-t linux64 -j4 -f x86_64 -P 5`` |
-| mac64           | ``-t mac64 -j4 -f``               |
-| android-aarch64 | ``-t android-aarch64 -x -j4 -f``  |
-
-### Common pitfalls
-- If used, the `-t` option (target) MUST be specified BEFORE the `-f` option (optimizations)
-- Avoid using the script in directory trees containing spaces. Some libraries don't like trying to be built in directory trees containing spaces, e.g. `/home/user/my folder/pocketmine-mp/` might experience problems.
+| linux64         | ``-t linux64 -j4 -P5``            |
+| linux64, PM4    | ``-t linux64 -j4 -P4``            |
+| mac64           | ``-t mac-x86-64 -j4 -P5``         |
+| android-aarch64 | ``-t android-aarch64 -x -j4 -P5`` |
 
 ## windows-compile-vs.bat
 
