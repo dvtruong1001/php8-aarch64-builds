@@ -6,11 +6,30 @@
 
 Bash script used to compile PHP on MacOS and Linux platforms. Make sure you have ``make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c``.
 
+#Original README.md
+
+# Custom PHP build scripts for PocketMine-MP
+[![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
+
+## Looking for prebuilt binaries? Head over to [releases](https://github.com/pmmp/PHP-Binaries/releases/latest)
+
+## compile.sh
+
+Bash script used to compile PHP on MacOS and Linux platforms. Make sure you have ``make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c ca-certificates``.
+
+### Recommendations
+- If you're going to use the compiled binary only on the machine you're build it on, remove the `-t` option for best performance - this will allow the script to optimize for the current machine rather than a generic one.
+- [`ext-gd2`](https://www.php.net/manual/en/book.image.php) is NOT included unless the `-g` flag is provided, as PocketMine-MP doesn't need it. However, if your plugins need it, don't forget to enable it using `-g`.
+- The `-c` and `-l` options can be used to specify cache folders to speed up recompiling if you're recompiling many times (e.g. to improve the script).
+
+### Common pitfalls
+- Avoid using the script in directory trees containing spaces. Some libraries don't like trying to be built in directory trees containing spaces, e.g. `/home/user/my folder/pocketmine-mp/` might experience problems.
+- Avoid directory trees containing special (non-English) symbols. For example, `Développement` might cause issues.
+
 ### Additional notes
 #### Mac OSX (native compile)
 - Most dependencies can be installed using Homebrew
 - You will additionally need `glibtool` (GNU libtool, xcode libtool won't work)
-- You also MUST specify target as `mac` or `mac64` if building for Mac, on Mac.
 
 #### Android 64-bit (cross-compile)
 - Only aarch64 targets are supported for Android cross-compile.
