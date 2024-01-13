@@ -1,32 +1,33 @@
 #!/usr/bin/env bash
-[ -z "$PHP_VERSION" ] && PHP_VERSION="8.1.24"
+[ -z "$PHP_VERSION" ] && PHP_VERSION="8.2.13"
 
 ZLIB_VERSION="1.3"
 GMP_VERSION="6.3.0"
-CURL_VERSION="curl-8_3_0"
+CURL_VERSION="curl-8_5_0"
 YAML_VERSION="0.2.5"
 LEVELDB_VERSION="1c7564468b41610da4f498430e795ca4de0931ff"
 LIBXML_VERSION="2.10.1" #2.10.2 requires automake 1.16.3, which isn't easily available on Ubuntu 20.04
 LIBPNG_VERSION="1.6.40"
 LIBJPEG_VERSION="9e"
-OPENSSL_VERSION="3.1.3"
+OPENSSL_VERSION="3.1.4"
 LIBZIP_VERSION="1.10.1"
-SQLITE3_VERSION="3430100" #3.43.1
+SQLITE3_VERSION="3440200" #3.44.2
 LIBDEFLATE_VERSION="dd12ff2b36d603dbb7fa8838fe7e7176fcbd4f6f" #1.19
 
 EXT_PTHREADS_VERSION="4.2.2"
-EXT_PMMPTHREAD_VERSION="6.0.10"
+EXT_PMMPTHREAD_VERSION="6.0.12"
 EXT_YAML_VERSION="2.2.3"
 EXT_LEVELDB_VERSION="317fdcd8415e1566fc2835ce2bdb8e19b890f9f3"
 EXT_CHUNKUTILS2_VERSION="0.3.5"
-EXT_XDEBUG_VERSION="3.2.2"
-EXT_IGBINARY_VERSION="3.2.14"
+EXT_XDEBUG_VERSION="3.3.0"
+EXT_IGBINARY_VERSION="3.2.15"
 EXT_CRYPTO_VERSION="0.3.2"
 EXT_RECURSIONGUARD_VERSION="0.1.0"
 EXT_LIBDEFLATE_VERSION="0.2.1"
 EXT_MORTON_VERSION="0.1.2"
 EXT_XXHASH_VERSION="0.2.0"
-EXT_ARRAYDEBUG_VERSION="0.1.0"
+EXT_ARRAYDEBUG_VERSION="0.2.0"
+EXT_ENCODING_VERSION="0.2.3"
 
 function write_out {
 	echo "[$1] $2"
@@ -347,7 +348,7 @@ else
 			LDFLAGS="$LDFLAGS -Wl,-rpath,@loader_path/../lib";
 			export DYLD_LIBRARY_PATH="@loader_path/../lib"
 		fi
-		CFLAGS="$CFLAGS -Qunused-arguments -Wno-error=unused-command-line-argument-hard-error-in-future"
+		CFLAGS="$CFLAGS -Qunused-arguments"
 		GMP_ABI="64"
 		OPENSSL_TARGET="darwin64-x86_64-cc"
 		CMAKE_GLOBAL_EXTRA_FLAGS="-DCMAKE_OSX_ARCHITECTURES=x86_64"
@@ -431,25 +432,25 @@ fi
 if [ "$mtune" != "none" ]; then
 	$CC -march=$march -mtune=$mtune $CFLAGS -o test test.c >> "$DIR/install.log" 2>&1
 	if [ $? -eq 0 ]; then
-		CFLAGS="-march=$march -mtune=$mtune -fno-gcse $CFLAGS"
+		CFLAGS="-march=$march -mtune=$mtune $CFLAGS"
 	fi
 else
 	$CC -march=$march $CFLAGS -o test test.c >> "$DIR/install.log" 2>&1
 	if [ $? -eq 0 ]; then
-		CFLAGS="-march=$march -fno-gcse $CFLAGS"
+		CFLAGS="-march=$march $CFLAGS"
 	fi
 fi
 
 if [ "$DO_OPTIMIZE" != "no" ]; then
 	#FLAGS_LTO="-fvisibility=hidden -flto"
 	CFLAGS="$CFLAGS -O2"
-	GENERIC_CFLAGS="$CFLAGS -ftree-vectorize -fomit-frame-pointer -funswitch-loops -fivopts"
+	GENERIC_CFLAGS="$CFLAGS -ftree-vectorize -fomit-frame-pointer"
 	$CC $CFLAGS $GENERIC_CFLAGS -o test test.c >> "$DIR/install.log" 2>&1
 	if [ $? -eq 0 ]; then
 		CFLAGS="$CFLAGS $GENERIC_CFLAGS"
 	fi
 	#clang does not understand the following and will fail
-	GCC_CFLAGS="$CFLAGS -funsafe-loop-optimizations -fpredictive-commoning -ftracer -ftree-loop-im -frename-registers -fcx-limited-range"
+	GCC_CFLAGS="$CFLAGS -funsafe-loop-optimizations -fpredictive-commoning -ftracer -ftree-loop-im -frename-registers -fcx-limited-range -funswitch-loops -fivopts -fno-gcse"
 	$CC $CFLAGS $GCC_CFLAGS -o test test.c >> "$DIR/install.log" 2>&1
 	if [ $? -eq 0 ]; then
 		CFLAGS="$CFLAGS $GCC_CFLAGS"
@@ -633,6 +634,9 @@ function build_curl {
 		download_github_src "curl/curl" "$CURL_VERSION" "curl" | tar -zx >> "$DIR/install.log" 2>&1
 		write_configure
 		cd "$curl_dir"
+		if [[ "$(uname -s)" == "Darwin" ]]; then
+			sed -i'.bak' 's/^CURL_CONVERT_INCLUDE_TO_ISYSTEM//' ./configure.ac
+		fi
 		./buildconf --force >> "$DIR/install.log" 2>&1
 		RANLIB=$RANLIB ./configure --disable-dependency-tracking \
 		--enable-ipv6 \
@@ -1065,6 +1069,8 @@ get_github_extension "xxhash" "$EXT_XXHASH_VERSION" "pmmp" "ext-xxhash"
 
 get_github_extension "arraydebug" "$EXT_ARRAYDEBUG_VERSION" "pmmp" "ext-arraydebug"
 
+get_github_extension "encoding" "$EXT_ENCODING_VERSION" "pmmp" "ext-encoding"
+
 write_library "PHP" "$PHP_VERSION"
 
 write_configure
@@ -1190,6 +1196,7 @@ $HAVE_MYSQLI \
 --enable-recursionguard \
 --enable-xxhash \
 --enable-arraydebug \
+--enable-encoding \
 $HAVE_VALGRIND \
 $CONFIGURE_FLAGS >> "$DIR/install.log" 2>&1
 write_compile
