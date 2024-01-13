@@ -1,5 +1,5 @@
 # THIS REPO RELEASED PM5 FOR ARM64 - WARNING. PM4 is deprecated. So new releases are getting only PM5
-### last release / new release https://github.com/TukangM/php8-aarch64-builds/releases/latest
+### last release / new release https://github.com/TukangM/php8-aarch64-builds/releases/latest PHP8.2.13
 ### last support pm4 at this release https://github.com/TukangM/php8-aarch64-builds/releases/tag/php8.1.23
 
 ## compile.sh
