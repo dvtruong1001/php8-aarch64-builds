@@ -1,6 +1,6 @@
 compile dependencies
-./compile-aarch64-musl.sh
+sudo bash compile-aarch64-linux.musl.sh
 compile pmmp4
-./compile-pmmp.sh -t android-aarch64 -x -j4 -P4
+sudo bash compile.sh -t android-aarch64 -x -j8 -P4
 compile pmmp5
-./compile-pmmp.sh -t android-aarch64 -x -j4 -P5
+sudo bash compile.sh -t android-aarch64 -x -j8 -P5
