@@ -2,20 +2,20 @@
 ### last release / new release https://github.com/TukangM/php8-aarch64-builds/releases/latest PHP8.2.13
 ### last support pm4 at this release https://github.com/TukangM/php8-aarch64-builds/releases/tag/php8.1.23
 
+# Custom PHP build scripts for PocketMine-MP
+[![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
+
 ## compile.sh
 
 Bash script used to compile PHP on MacOS and Ubuntu 22.04 platforms. Make sure you have ``make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c``.
 
 # Original README.md
 
-# Custom PHP build scripts for PocketMine-MP
-[![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
-
 ## Looking for prebuilt binaries? Head over to [releases](https://github.com/pmmp/PHP-Binaries/releases/latest)
 
 ## compile.sh
 
-Bash script used to compile PHP on MacOS and Linux platforms. Make sure you have ``make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c ca-certificates``.
+Bash script used to compile PHP on MacOS and Linux platforms. Make sure you have ``make autoconf automake libtool m4 wget gzip bzip2 bison g++ git cmake pkg-config re2c``.
 
 ### Recommendations
 - If you're going to use the compiled binary only on the machine you're build it on, remove the `-t` option for best performance - this will allow the script to optimize for the current machine rather than a generic one.
