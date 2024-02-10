@@ -27,6 +27,7 @@ jobs:
           cd musl-cross-make
           sudo apt-get update
           sudo apt-get install make autoconf automake libtool m4 wget gzip bzip2 bison g++ git cmake pkg-config re2c
+          sudo apt-get install libtool-bin
           sudo make install -j${{ steps.cpu-cores.outputs.count }}
           cd ..
           
@@ -34,7 +35,7 @@ jobs:
       - name: wget compile.sh and compile and tar.gz or achive the binary
         run: |
           pwd
-          wget https://raw.githubusercontent.com/TukangM/php8-aarch64-builds/main/compile.sh
+          wget https://raw.githubusercontent.com/TukangM/php8-aarch64-builds/main/compile.sh -O compile.sh
           bash compile.sh -t android-aarch64 -x -j${{ steps.cpu-cores.outputs.count }} -P5 -D
           pwd
           tar -czf ./PHP-Linux-aarch64-PM5.tar.gz bin
