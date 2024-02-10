@@ -1,1 +1,65 @@
-      
+name: Build PHP binaries
+
+on:
+  workflow_call:
+    inputs:
+      pm-version-major:
+        description: 'PocketMine-MP major version'
+        required: true
+        type: number
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone musl-cross-make repository
+        run: git clone https://github.com/TukangM/musl-cross-make
+
+      - name: Install tools and dependencies for musl-cross-make and install musl-cross-make binary
+        run: |
+          cd musl-cross-make
+          sudo apt-get update
+          sudo apt-get install make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c
+          sudo make install
+          cd ..
+
+      - name: wget compile.sh
+        run: wget https://raw.githubusercontent.com/TukangM/php8-aarch64-builds/main/compile.sh
+
+      - name: Compile PHP for ARM64
+        run: |
+          cd php8-aarch64-builds
+          ./compile.sh -t android-aarch64 -x -j4 -P5 -D
+
+      - name: Create tarball
+        run: |
+          tar -czf ./PHP-Linux-aarch64-PM5.tar.gz bin
+          tar -czf ./PHP-Linux-aarch64-PM5-debugging-symbols.tar.gz bin-debug
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Linux-aarch64-PM5
+          path: |
+            ./PHP-Linux-aarch64-PM5*.tar.gz
+            install.log
+            compile.sh
+          if-no-files-found: error
+
+      - name: Prepare workspace for upload
+        if: failure()
+        run: tar -czf workspace.tar.gz install_data
+
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: Linux-aarch64-workspace-PM${{ inputs.pm-version-major }}
+          path: |
+            workspace.tar.gz
+          if-no-files-found: error
