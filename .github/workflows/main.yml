@@ -1,17 +1,11 @@
 name: Build PHP binaries
 
 on:
-  workflow_call:
-    inputs:
-      pm-version-major:
-        description: 'PocketMine-MP major version'
-        required: false
-        type: number
-        workflow_dispatch:
-        push:
-            branches: [ "main" ]
-          pull_request:
-            branches: [ "main" ]
+    push:
+      branches: "**"
+      tags-ignore: "php-**"
+    pull_request:
+    workflow_dispatch:
 
 jobs:
   linux:
