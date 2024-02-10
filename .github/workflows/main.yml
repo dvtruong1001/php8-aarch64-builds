@@ -5,13 +5,18 @@ on:
     inputs:
       pm-version-major:
         description: 'PocketMine-MP major version'
-        required: true
+        required: false
         type: number
+        workflow_dispatch:
+        push:
+            branches: [ "main" ]
+          pull_request:
+            branches: [ "main" ]
 
 jobs:
   linux:
     name: Linux
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
