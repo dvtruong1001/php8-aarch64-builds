@@ -22,7 +22,7 @@ jobs:
         run: |
           cd musl-cross-make
           sudo apt-get update
-          sudo apt-get install make autoconf automake libtool m4 wget getconf gzip bzip2 bison g++ git cmake pkg-config re2c
+          sudo apt-get install make autoconf automake libtool m4 wget gzip bzip2 bison g++ git cmake pkg-config re2c
           sudo make install
           cd ..
 
