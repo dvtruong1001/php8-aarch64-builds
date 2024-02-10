@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Linux-aarch64-workspace-PM${{ inputs.pm-version-major }}
+          name: Linux-aarch64-workspace-PM5
           path: |
             workspace.tar.gz
           if-no-files-found: error

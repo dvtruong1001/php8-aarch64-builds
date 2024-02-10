@@ -3,7 +3,7 @@
 ### last support pm4 at this release https://github.com/TukangM/php8-aarch64-builds/releases/tag/php8.1.23
 
 # Custom PHP build scripts for PocketMine-MP
-[![Build status](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml/badge.svg)](https://github.com/pmmp/php-build-scripts/actions/workflows/main.yml)
+[![Build PHP binaries](https://github.com/TukangM/php8-aarch64-builds/actions/workflows/main.yml/badge.svg)](https://github.com/TukangM/php8-aarch64-builds/actions/workflows/main.yml)
 
 ## compile.sh
 
