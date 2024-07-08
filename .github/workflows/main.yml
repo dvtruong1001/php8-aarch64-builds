@@ -35,7 +35,7 @@ jobs:
       - name: wget compile.sh and compile and tar.gz or achive the binary
         run: |
           pwd
-          wget https://raw.githubusercontent.com/TukangM/php8-aarch64-builds/main/compile.sh -O compile.sh
+          wget https://raw.githubusercontent.com/dvtruong1001/php8-aarch64-builds/main/compile.sh -O compile.sh
           bash compile.sh -t android-aarch64 -x -j${{ steps.cpu-cores.outputs.count }} -P5 -D
           pwd
           tar -czf ./PHP-Linux-aarch64-PM5.tar.gz bin
